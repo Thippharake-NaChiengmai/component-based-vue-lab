@@ -3,12 +3,12 @@ import EventCard from '@/components/EventCard.vue';
 import EventMeta from '@/components/EventMeta.vue'
 import type { Event } from '@/types';
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import EventService from '@/service/EventService';
 
 const events = ref<Event[]>();
 
-onMounted(() =>{
-  axios.get<Event[]>('https://my-json-server.typicode.com/Thippharake-NaChiengmai/lab02-db.json/events')
+onMounted(() => {
+  EventService.getEvents()
     .then(response => {
       events.value = response.data;
     })
