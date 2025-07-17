@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import Event from '@/types/Event';
+import EventService from '@/service/EventService';
 const event = ref<Event>(null);
 onMounted(() => {
-  // Fetch event (by id) from the API or store
+  EventService.getEvent(id.value) // Assuming you want to fetch event with ID 1
+    .then(response => {
+      event.value = response.data;
+    })
+    .catch(error => {
+      console.error('There was an error!', error);
+    });
 });
 </script>
 <template>
