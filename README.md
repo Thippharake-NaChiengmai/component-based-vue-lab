@@ -12,3 +12,5 @@ View your mock events data here(***update for lab03 point 2.2***):
 👉 **http://localhost:5173/event/5928101**
 ## 🔗 Check Point 2.4
 👉 **http://localhost:5173/?page=1**
+## 🔗 Check Point 5.1
+👉 **http://localhost:5173/999999**
