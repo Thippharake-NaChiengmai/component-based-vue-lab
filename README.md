@@ -10,3 +10,5 @@ View your mock events data here:
 # 🧪 Vue Lab 03 — Component-Based (Vue Router)
 ## 🔗 Check Point 1.4
 👉 **http://localhost:5173/event/5928101**
+## 🔗 Check Point 2.4
+👉 **http://localhost:5173/?page=1**
