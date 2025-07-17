@@ -14,3 +14,5 @@ View your mock events data here(***update for lab03 point 2.2***):
 👉 **http://localhost:5173/?page=1**
 ## 🔗 Check Point 5.1
 👉TEST!!! **http://localhost:5173/999999**
+## 🔗 Check Point 6.0-6.6
+👉 **https://github.com/Thippharake-NaChiengmai/component-based-lab03-checkpoint6**
