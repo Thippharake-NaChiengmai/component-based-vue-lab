@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, defineProps } from 'vue';
-import Event from '@/types/Event';
+import { type Event } from '@/types';
 import EventService from '@/service/EventService';
-const event = ref<Event>(null);
+const event = ref<Event | null>(null);
 const props = defineProps({
   id: {
     type: String,
@@ -11,7 +11,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  EventService.getEvent(props.id) // Assuming you want to fetch event with ID 1
+  EventService.getEvent(parseInt(props.id)) // Assuming you want to fetch event with ID 1
     .then(response => {
       event.value = response.data;
     })
