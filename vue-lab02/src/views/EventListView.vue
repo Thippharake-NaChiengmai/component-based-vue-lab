@@ -2,13 +2,19 @@
 import EventCard from '@/components/EventCard.vue';
 import EventMeta from '@/components/EventMeta.vue'
 import type { Event } from '@/types';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import EventService from '@/service/EventService';
 
 const events = ref<Event[]>();
-
+const props = defineProps({
+  page: {
+    type: Number,
+    default: true
+  }
+});
+const page = computed(() => props.page);
 onMounted(() => {
-  EventService.getEvents()
+  EventService.getEvents(2, page.value)
     .then(response => {
       events.value = response.data;
     })
