@@ -13,9 +13,10 @@ const router = createRouter({
       component: EventListView
     },
     {
-      path: '/events/5928101',
+      path: '/events/:id',
       name: 'event-detail-view',
-      component: EventDetailView
+      component: EventDetailView,
+      props: true // This allows the route to pass the id as a prop to the component
     },
     {
       path: '/about',
