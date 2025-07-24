@@ -9,10 +9,6 @@ import router from '@/router';
 const events = ref<Event[] | null>(null);
 const totalEvents = ref(0);
 
-const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / 2);
-  return totalPages > page.value;
-});
 const props = defineProps({
   page: {
     type: Number,
@@ -23,11 +19,16 @@ const props = defineProps({
     default: true
   }
 });
+
+const hasNextPage = computed(() => {
+  const totalPages = Math.ceil(totalEvents.value / size.value);
+  return totalPages > page.value;
+});
+
 const page = computed(() => props.page);
 const size = computed(() => props.size);
 onMounted(() => {
  watchEffect(() => {
-    events.value = null;
     EventService.getEvents(size.value, page.value)
       .then(response => {
         events.value = response.data;
@@ -77,7 +78,7 @@ onMounted(() => {
 <div class="page-size-selector">
   <span>Items per page:</span>
   <RouterLink
-    v-for="option in [2, 4, 6]"
+    v-for="option in [2, 3, 4, 6]"
     :key="option"
     :to="{ name: 'event-list-view', query: { page: 1, size: option } }"
     :class="{ active: option === size }"

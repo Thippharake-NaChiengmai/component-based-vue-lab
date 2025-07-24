@@ -25,6 +25,7 @@ const router = createRouter({
       }),
     },
     {
+      //point 3.5
       path: '/event/:id',
       name: 'event-layout-view',
       component: EventLayoutView,
@@ -34,8 +35,8 @@ const router = createRouter({
         const eventStore = useEventStore()
         return EventService.getEvent(id)
         .then((response) => {
-        eventStore.setEvent(response.data) // สมมุติคุณมี setEvent ใน store
-        return true // ให้ route ดำเนินต่อ
+        eventStore.setEvent(response.data)
+        return true
         }).catch(error => {
           if (error.response && error.response.status === 404) {
             return { name: '404-resource-view',
@@ -94,6 +95,13 @@ const router = createRouter({
       component: StudentListView 
     },
   ],
+  scrollBehavior(to, from,savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 
 router.beforeEach(( ) => {
