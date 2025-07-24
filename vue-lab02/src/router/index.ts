@@ -9,6 +9,8 @@ import EventLayoutView from '@/views/event/LayoutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import nProgress from 'nprogress'
+import EventService from '@/service/EventService'
+import { useEventStore } from '@/stores/event'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +29,23 @@ const router = createRouter({
       name: 'event-layout-view',
       component: EventLayoutView,
       props: true,
+      beforeEnter: (to) => {
+        const id = parseInt(to.params.id as string)
+        const eventStore = useEventStore()
+        return EventService.getEvent(id)
+        .then((response) => {
+        eventStore.setEvent(response.data) // สมมุติคุณมี setEvent ใน store
+        return true // ให้ route ดำเนินต่อ
+        }).catch(error => {
+          if (error.response && error.response.status === 404) {
+            return { name: '404-resource-view',
+               params: { resource: 'event' } 
+              }
+          } else{
+            return { name: 'network-error-view'}
+          }
+        })
+      },
       children: [
         {
           path: 'detail',
