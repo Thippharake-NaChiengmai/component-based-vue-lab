@@ -19,3 +19,6 @@ View your mock events data here(***update for lab03 point 2.2***):
 # 🧪 Vue Lab 04 — Component-Based(Vue Router and Pinia)
 ## 🔗 Check Point 6.1-6.5
 👉 **https://github.com/Thippharake-NaChiengmai/component-based-passenger-app**
+# 🧪 Vue Lab 06 — Component-Based(Tailwinds CSS)
+## 🔗 Check Point 12.8
+👉 **https://component-based-vue-lab-8tt9.vercel.app/**
