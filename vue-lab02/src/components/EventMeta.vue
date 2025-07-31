@@ -4,18 +4,8 @@ defineProps<{ event: Event }>()
 </script>
 
 <template>
-  <div class="meta">
-    <p class="text">{{ event.category }}</p>
-    <p class="text">{{ event.organizer }}</p>
+  <div class="text-right">
+    <p class="text-sm m-0">{{ event.category }}</p>
+    <p class="text-sm m-0">{{ event.organizer }}</p>
   </div>
 </template>
-
-<style scoped>
-.meta {
-  text-align: right;
-}
-.text {
-  font-size: 14px;
-  margin: 0;
-}
-</style>

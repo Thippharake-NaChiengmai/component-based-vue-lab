@@ -23,30 +23,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Student List</h1>
-  <div class="student-wrapper">
+  <h1 class="text-4xl font-bold text-center mb-8">Student List</h1>
+  <div class="flex flex-col gap-6 items-center">
     <div 
-     class="student" v-for="student in students" :key="student.id">
-      <h2>{{ student.name }} {{ student.surname }}</h2>
-      <p><strong>GPA:</strong> {{ student.gpa }}</p>
+     class="border border-gray-300 rounded-lg p-4 w-60 bg-gray-50 shadow-md" v-for="student in students" :key="student.id">
+      <h2 class="text-xl font-semibold mb-2">{{ student.name }} {{ student.surname }}</h2>
+      <p class="text-gray-700"><strong>GPA:</strong> {{ student.gpa }}</p>
     </div>
   </div>
 </template>
-
-<style scoped>
-.student-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.student {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  width: 240px;
-  background-color: #f9f9f9;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-}
-</style>

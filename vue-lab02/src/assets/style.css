@@ -17,3 +17,7 @@ nav{
 span{
     @apply text-gray-600
 }
+
+button{
+    @apply px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium;
+}
