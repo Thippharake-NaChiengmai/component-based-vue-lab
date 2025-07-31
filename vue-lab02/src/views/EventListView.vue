@@ -46,7 +46,7 @@ onMounted(() => {
 <template>
    <h1>Events For Good</h1>
    <!-- new element -->
-  <div class="events-wrapper">
+  <div class="flex flex-col items-center">
     <div
       class="event"
       v-for="event in events"
@@ -90,12 +90,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.events-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-}
 
 .event {
   display: flex;
