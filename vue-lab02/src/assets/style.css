@@ -13,3 +13,7 @@ h2{
 nav{
     @apply p-[30px];
 }
+
+span{
+    @apply text-gray-600
+}

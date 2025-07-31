@@ -48,7 +48,7 @@ onMounted(() => {
    <!-- new element -->
   <div class="flex flex-col items-center">
     <div
-      class="event"
+      class="flex flex-col items-stretch w-80"
       v-for="event in events"
       :key="event.id"
     >
@@ -56,12 +56,13 @@ onMounted(() => {
       <EventMeta :event="event" />
     </div>
   </div>
-  <div class="pagination">
+  <div class="flex justify-between items-center max-w-80 mx-auto my-8 py-2 px-4 border-t border-b border-gray-300">
   <RouterLink
     id="page-prev"
     :to="{ name: 'event-list-view', query: { page: page - 1, size: size } }"
     rel="prev"
     v-if="page > 1"
+    class="flex-1 text-left font-bold p-2 text-gray-600 hover:text-green-500 transition-colors duration-200"
   >
     ‹ Prev Page
   </RouterLink>
@@ -71,85 +72,24 @@ onMounted(() => {
     :to="{ name: 'event-list-view', query: { page: page + 1, size: size } }"
     rel="next"
     v-if="hasNextPage"
+    class="flex-1 text-right font-bold p-2 text-gray-600 hover:text-green-500 transition-colors duration-200"
   >
     Next Page ›
   </RouterLink>
 </div>
-<div class="page-size-selector">
+<div class="mt-4 flex gap-2 justify-center">
   <span>Items per page:</span>
   <RouterLink
     v-for="option in [2, 3, 4, 6]"
     :key="option"
     :to="{ name: 'event-list-view', query: { page: 1, size: option } }"
-    :class="{ active: option === size }"
+    :class="[
+      'px-2 py-1 bg-gray-200 rounded text-gray-600 no-underline hover:bg-gray-300 transition-colors duration-200',
+      { 'bg-green-500 text-white hover:bg-green-600': option === size }
+    ]"
   >
     {{ option }}
   </RouterLink>
 </div>
 
 </template>
-
-<style scoped>
-
-.event {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: 320px;
-}
-
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 320px;
-  margin: 2rem auto 1rem;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
-
-.pagination a {
-  flex: 1;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 0.5rem;
-  color: #2c3e50;
-  transition: color 0.2s ease;
-}
-
-.pagination a:hover {
-  color: #42b983;
-}
-
-#page-prev {
-  text-align: left;
-  justify-content: flex-start;
-}
-
-#page-next {
-  text-align: right;
-  justify-content: flex-end;
-}
-
-.page-size-selector {
-  margin-top: 1rem;
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.page-size-selector a {
-  padding: 4px 8px;
-  background: #eee;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #333;
-}
-
-.page-size-selector a.active {
-  background: #42b983;
-  color: white;
-}
-
-</style>
