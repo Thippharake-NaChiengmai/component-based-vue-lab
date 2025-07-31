@@ -2,7 +2,6 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
 import { storeToRefs } from 'pinia';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 const messageStore = useMessageStore();
 const { messages } = storeToRefs(messageStore);
 </script>
