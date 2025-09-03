@@ -14,7 +14,9 @@ const { messages } = storeToRefs(messageStore);
     <div class="animate-fade" v-if="messages">
       <h4>{{ messages }}</h4>
     </div>
-    <h1 class="text-start text-red-500">Deploy With Vercel</h1>
+    <span class="text-center text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 py-2">
+      Deploy With Vercel/Spring-boots Backend
+    </span>
      <div class="py-6">
        <nav>
          <RouterLink class="font-bold text-gray-700" exact-active-class="text-green-500" :to="{ name: 'event-list-view' }">Event</RouterLink> |
