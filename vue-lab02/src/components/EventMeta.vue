@@ -6,6 +6,6 @@ defineProps<{ event: Event }>()
 <template>
   <div class="text-right">
     <p class="text-sm m-0">{{ event.category }}</p>
-    <p class="text-sm m-0">{{ event.organizer }}</p>
+    <p class="text-sm m-0">{{ event.organizer.organization }}</p>
   </div>
 </template>

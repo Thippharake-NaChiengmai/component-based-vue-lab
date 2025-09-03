@@ -10,6 +10,7 @@ import { type Event } from '@/types';
     hover:scale-101 hover:shadow-sp">
       <h2>{{ event.title }}</h2>
       <span>@{{ event.time }} on {{ event.date }}</span>
+      <p class="text-sm text-gray-600 mt-2">by {{ event.organizer.organization }}</p>
     </div>
   </routerLink>
 </template>

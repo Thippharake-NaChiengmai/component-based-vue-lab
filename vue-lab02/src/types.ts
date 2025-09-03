@@ -1,3 +1,9 @@
+export interface Organizer {
+  id: number;
+  organization: string;
+  address: string;
+}
+
 export interface Event {
   id: number;
   category: string;
@@ -6,8 +12,8 @@ export interface Event {
   location: string;
   date: string;
   time: string;
-  petsAllowed: boolean;
-  organizer: string;
+  petAllowed: boolean;
+  organizer: Organizer;
 }
 
 export interface MessageState {
@@ -16,4 +22,8 @@ export interface MessageState {
 
 export interface EventState {
   event: Event | null
+}
+
+export interface OrganizerState {
+  organizer: Organizer | null
 }
