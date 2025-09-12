@@ -19,9 +19,41 @@ const { messages } = storeToRefs(messageStore);
     </span>
      <div class="py-6">
        <nav>
-         <RouterLink class="font-bold text-gray-700" exact-active-class="text-green-500" :to="{ name: 'event-list-view' }">Event</RouterLink> |
-         <RouterLink class="font-bold text-gray-700" exact-active-class="text-green-500" :to="{ name: 'students' }">Student</RouterLink> |
-         <RouterLink class="font-bold text-gray-700" exact-active-class="text-green-500" :to="{ name: 'about' }">About</RouterLink>
+         <RouterLink
+           class="font-bold text-gray-700"
+           exact-active-class="text-green-500"
+           :to="{ name: 'event-list-view' }"
+         >
+           Event |
+         </RouterLink>
+         <RouterLink
+           class="font-bold text-gray-700"
+           exact-active-class="text-green-500"
+           :to="{ name: 'about' }"
+         >
+           About |
+         </RouterLink>
+         <RouterLink
+           class="font-bold text-gray-700"
+           exact-active-class="text-green-500"
+           :to="{ name: 'students' }"
+         >
+           students |
+         </RouterLink>
+         <RouterLink
+           class="font-bold text-gray-700"
+           exact-active-class="text-green-500"
+           :to="{ name: 'add-event' }"
+         >
+           Add Event |
+         </RouterLink>
+         <RouterLink
+           class="font-bold text-gray-700"
+           exact-active-class="text-green-500"
+           :to="{ name: 'add-organizer' }"
+         >
+           Add Organizer
+         </RouterLink>
        </nav>
      </div>
    </header>

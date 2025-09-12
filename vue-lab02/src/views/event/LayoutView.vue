@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { useEventStore } from '@/stores/event';
 import { storeToRefs } from 'pinia';
+import { defineProps } from 'vue';
+
+defineProps<{
+  id?: string | number;
+}>();
 
 const store = useEventStore()
 const { event } = storeToRefs(store)
