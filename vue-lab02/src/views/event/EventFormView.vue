@@ -31,8 +31,16 @@ function saveEvent() {
     return
   }
   
+  // Prepare payload expected by backend:
+  // - Do not send id on create
+  // - Prefer organizerId instead of nested organizer object (common backend contract)
+  const { id, organizer, ...rest } = event.value
+  const payload: Record<string, unknown> = { ...rest }
+  if (organizer && typeof organizer.id === 'number' && organizer.id > 0) {
+    payload.organizerId = organizer.id
+  }
 
-  EventService.saveEvent(event.value)
+  EventService.saveEvent(payload as unknown as Event)
     .then((response) => {
       store.updateMessages('You are successfully add a new event for ' + response.data.title)
       setTimeout(() => { store.resetMessages() }, 3000)
