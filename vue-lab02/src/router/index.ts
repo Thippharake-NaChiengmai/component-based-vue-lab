@@ -12,7 +12,7 @@ import nProgress from 'nprogress'
 import EventService from '@/service/EventService'
 import { useEventStore } from '@/stores/event'
 import AddEventView from '@/views/event/EventFormView.vue'
-import OrganizerFormView from '@/views/OrganizerFormView.vue'
+import OrganizerFormView from '@/views/event/OrganizerFormView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -12,8 +12,8 @@ export interface Event {
   location: string;
   date: string;
   time: string;
-  petAllowed: boolean;
-  organizer: Organizer;
+  petAllowed: boolean
+  organizer: string
 }
 
 export interface MessageState {
