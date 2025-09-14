@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Organizer } from '@/types'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import OrganizerService from '@/service/OrganizerService'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
@@ -12,8 +12,23 @@ const organizer = ref<Organizer>({
   address: ''
 })
 
+const organizers = ref<Organizer[]>([])
 const router = useRouter()
 const store = useMessageStore()
+
+onMounted(() => {
+  loadOrganizers()
+})
+
+function loadOrganizers() {
+  OrganizerService.getOrganizers(100, 1)
+    .then((response) => {
+      organizers.value = response.data
+    })
+    .catch(() => {
+      console.error('Failed to load organizers')
+    })
+}
 
 function saveOrganizer() {
   // Basic validation
@@ -42,6 +57,24 @@ function saveOrganizer() {
 
 <template>
   <div>
+    <!-- Organizer List -->
+    <div class="mt-8">
+      <h2 class="eyebrow -text-primary mb-4">Existing Organizers</h2>
+      <div v-if="organizers.length === 0" class="text-gray-500 text-sm">
+        No organizers found.
+      </div>
+      <div v-else class="space-y-2">
+        <div 
+          v-for="org in organizers" 
+          :key="org.id"
+          class="border border-gray-300 rounded p-3 bg-gray-50"
+        >
+          <div class="font-medium text-gray-800">{{ org.organization }}</div>
+          <div class="text-sm text-gray-600">{{ org.address || 'No address provided' }}</div>
+        </div>
+      </div>
+    </div>
+
     <h1 class="eyebrow -text-primary">Create an Organizer</h1>
     <form @submit.prevent="saveOrganizer">
       <div class="field">
