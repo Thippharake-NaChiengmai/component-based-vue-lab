@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 import type { Event } from '@/types';
 
 const apiClient = axios.create({
@@ -19,5 +19,10 @@ export default {
   },
   saveEvent(event: Event) {
     return apiClient.post('/events', event)
-  }
+  },
+  getEventsByKeyword (keyword: string, perPage: number, page: number) :
+       Promise<AxiosResponse<Event[]>> {
+return apiClient.get<Event[]> ('/events?title=' + keyword + '&_limit=' +
+perPage + '& page=' + page)
+}
 }

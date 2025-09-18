@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue';
 import EventMeta from '@/components/EventMeta.vue'
+import BaseInput from '@/components/BaseInput.vue'
 import { type Event } from '@/types';
 import { ref, onMounted, computed, watchEffect } from 'vue';
 import EventService from '@/service/EventService';
@@ -40,6 +41,27 @@ onMounted(() => {
       })
   });
 });
+
+const keyword = ref('');
+function updateKeyword (value: string) {
+
+let queryFunction;
+ if (keyword.value === '') {
+queryFunction = EventService.getEvents (3, page.value)
+}else {
+queryFunction = EventService.getEventsByKeyword (keyword.value, 3, page.value)
+
+queryFunction. then ( (response) => {
+events.value = response.data
+
+console. log ('events', events.value)
+totalEvents.value = response. headers ['x-total-count' ]
+console. log ('totalEvent', totalEvents. value)
+}) .catch ( () => {
+router.push ({ name: 'network-error-view' } )
+})
+}
+}
 </script>
 
 
@@ -47,8 +69,14 @@ onMounted(() => {
    <h1>Events For Good</h1>
    <!-- new element -->
   <div class="flex flex-col items-center">
-    <div
-      class="flex flex-col items-stretch w-80"
+    <div class="w-64">
+      <BaseInput 
+        v-model="keyword"
+        label="Search..."
+        @input="updateKeyword"
+        class="w-full"/>
+    </div>
+    <div class="flex flex-col items-stretch w-80"
       v-for="event in events"
       :key="event.id"
     >
