@@ -30,15 +30,7 @@ const page = computed(() => props.page);
 const size = computed(() => props.size);
 onMounted(() => {
  watchEffect(() => {
-    EventService.getEvents(size.value, page.value)
-      .then(response => {
-        events.value = response.data;
-        totalEvents.value = parseInt(response.headers['x-total-count']);
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-        router.push({ name: 'network-error-view' });
-      })
+    updateKeyword('');
   });
 });
 
