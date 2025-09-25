@@ -14,6 +14,7 @@ export interface Event {
   time: string;
   petAllowed: boolean
   organizer: string
+  images: string[]
 }
 
 export interface MessageState {

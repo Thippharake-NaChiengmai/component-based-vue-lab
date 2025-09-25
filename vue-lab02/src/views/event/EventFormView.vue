@@ -5,6 +5,7 @@ import EventService from '@/service/EventService'
 import OrganizerService from '@/service/OrganizerService'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
+import ImageUpload from '@/components/ImageUpload.vue'
 import '@/assets/form.css'
 
 const event = ref<Event>({
@@ -16,7 +17,8 @@ const event = ref<Event>({
   date: '',
   time: '',
   petAllowed: false,
-  organizer: ''
+  organizer: '',
+  images: []
 })
 
 const organizers = ref<Organizer[]>([])
@@ -112,6 +114,11 @@ function saveEvent() {
           <input v-model="event.petAllowed" type="checkbox" />
           Pets Allowed
         </label>
+      </div>
+
+      <h3 class="eyebrow -text-base">Event Images</h3>
+      <div class="field">
+        <ImageUpload v-model="event.images" />
       </div>
 
       <button class="button -fill-gradient" type="submit">Submit</button>
