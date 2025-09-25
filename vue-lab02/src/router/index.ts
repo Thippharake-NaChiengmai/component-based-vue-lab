@@ -13,6 +13,7 @@ import EventService from '@/service/EventService'
 import { useEventStore } from '@/stores/event'
 import AddEventView from '@/views/event/EventFormView.vue'
 import OrganizerFormView from '@/views/event/OrganizerFormView.vue'
+import OrganizerDetailView from '@/views/event/OrganizerDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -100,6 +101,12 @@ const router = createRouter({
       path:'/network-error',
       name: 'network-error-view',
       component: NetworkErrorView
+    },
+    {
+      path: '/organizer/:id',
+      name: 'organizer-detail',
+      component: OrganizerDetailView,
+      props: true
     },
     {
       path: '/students',

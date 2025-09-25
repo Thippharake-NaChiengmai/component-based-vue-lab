@@ -5,11 +5,13 @@ import OrganizerService from '@/service/OrganizerService'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
 import '@/assets/form.css'
+import ImageUpload from '@/components/ImageUpload.vue'
 
 const organizer = ref<Organizer>({
   id: 0,
   organization: '',
-  address: ''
+  address: '',
+  images: []
 })
 
 const organizers = ref<Organizer[]>([])
@@ -64,14 +66,15 @@ function saveOrganizer() {
         No organizers found.
       </div>
       <div v-else class="space-y-2">
-        <div 
+        <router-link 
           v-for="org in organizers" 
           :key="org.id"
-          class="border border-gray-300 rounded p-3 bg-gray-50"
+          :to="{ name: 'organizer-detail', params: { id: org.id } }"
+          class="block border border-gray-300 rounded p-3 bg-gray-50 hover:bg-gray-100 transition-colors"
         >
           <div class="font-medium text-gray-800">{{ org.organization }}</div>
           <div class="text-sm text-gray-600">{{ org.address || 'No address provided' }}</div>
-        </div>
+        </router-link>
       </div>
     </div>
 
@@ -86,7 +89,10 @@ function saveOrganizer() {
         <label>Address</label>
         <input v-model="organizer.address" type="text" placeholder="Organization Address" />
       </div>
-
+      <h3 class="eyebrow -text-base">Event Images</h3>
+      <div class="field">
+        <ImageUpload v-model="organizer.images" />
+      </div>
       <button class="button -fill-gradient" type="submit">Submit</button>
     </form>
     <pre class="-text-gray">{{ organizer }}</pre>
