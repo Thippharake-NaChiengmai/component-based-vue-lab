@@ -1,8 +1,15 @@
 export interface Organizer {
   id: number;
-  organization: string;
-  address: string;
+  name: string;
+  ownEvents?: Event[];
   images: string[];
+}
+
+export interface Participant {
+  id: number;
+  name: string;
+  telNo: string;
+  eventHistory?: Event[];
 }
 
 export interface Event {
@@ -13,9 +20,10 @@ export interface Event {
   location: string;
   date: string;
   time: string;
-  petAllowed: boolean
-  organizer: string
-  images: string[]
+  petAllowed: boolean;
+  organizer: Organizer;
+  participants: Participant[];
+  images: string[];
 }
 
 export interface MessageState {
@@ -23,9 +31,16 @@ export interface MessageState {
 }
 
 export interface EventState {
-  event: Event | null
+  events: Event[];
+  currentEvent: Event | null;
 }
 
 export interface OrganizerState {
-  organizer: Organizer | null
+  organizers: Organizer[];
+  currentOrganizer: Organizer | null;
+}
+
+export interface ParticipantState {
+  participants: Participant[];
+  currentParticipant: Participant | null;
 }

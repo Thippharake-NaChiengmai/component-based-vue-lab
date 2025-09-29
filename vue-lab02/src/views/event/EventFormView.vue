@@ -2,6 +2,7 @@
 import type { Event, Organizer } from '@/types'
 import { ref, onMounted } from 'vue'
 import EventService from '@/service/EventService'
+import BaseInput from '@/components/BaseInput.vue'
 import OrganizerService from '@/service/OrganizerService'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
@@ -17,7 +18,10 @@ const event = ref<Event>({
   date: '',
   time: '',
   petAllowed: false,
-  organizer: '',
+  organizer: {
+    id: 0,
+    name: ''
+  },
   images: []
 })
 
@@ -68,55 +72,17 @@ function saveEvent() {
   <div>
     <h1 class="eyebrow -text-primary">Create an event</h1>
     <form @submit.prevent="saveEvent">
-      <div class="field">
-        <label>Category *</label>
-        <input v-model="event.category" type="text" placeholder="Category" required />
-      </div>
+      <BaseInput v-model="event.category" type="text" label="Category"/>
+      <h3>Name & describe your event</h3>
+      <BaseInput v-model="event.title" type="text" label="Title"/>
+      <BaseInput v-model="event.description" type="text" label="Description"/>
+      <BaseInput v-model="event.location" type="text" label="Location"/>
+      <BaseInput v-model="event.date" type="date" label="Date"/>
+      <BaseInput v-model="event.time" type="time" label="Time"/>
+      <BaseInput v-model="event.petAllowed" type="checkbox" label="Pet Allowed"/>
+      <BaseInput v-model="event.organizer" type="text" label="Organizer"/>
 
-      <h3 class="eyebrow -text-base">Name & describe your event</h3>
-      <div class="field">
-        <label>Title *</label>
-        <input v-model="event.title" type="text" placeholder="Title" required />
-      </div>
-      <div class="field">
-        <label>Description *</label>
-        <input v-model="event.description" type="text" placeholder="Description" required />
-      </div>
-
-      <h3 class="eyebrow -text-base">When is your event?</h3>
-      <div class="field">
-        <label>Date</label>
-        <input v-model="event.date" type="date" />
-      </div>
-      <div class="field">
-        <label>Time</label>
-        <input v-model="event.time" type="time" />
-      </div>
-
-      <h3 class="eyebrow -text-base">Where is your event?</h3>
-      <div class="field">
-        <label>Location</label>
-        <input v-model="event.location" type="text" placeholder="Location" />
-      </div>
-
-      <h3 class="eyebrow -text-base">Additional Info</h3>
-      <div class="field">
-        <label>Organizer</label>
-        <select v-model="event.organizer">
-          <option value="">Select an organizer</option>
-          <option v-for="organizer in organizers" :key="organizer.id" :value="organizer.organization">
-            {{ organizer.organization }}
-          </option>
-        </select>
-      </div>
-      <div class="field">
-        <label>
-          <input v-model="event.petAllowed" type="checkbox" />
-          Pets Allowed
-        </label>
-      </div>
-
-      <h3 class="eyebrow -text-base">Event Images</h3>
+      <h3>Event Images</h3>
       <div class="field">
         <ImageUpload v-model="event.images" />
       </div>
