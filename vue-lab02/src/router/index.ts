@@ -12,6 +12,7 @@ import nProgress from 'nprogress'
 import EventService from '@/service/EventService'
 import { useEventStore } from '@/stores/event';
 import { useOrganizerStore } from '@/stores/organizer';
+import type { Organizer } from '@/types';
 import AddEventView from '@/views/event/EventFormView.vue'
 import OrganizerFormView from '@/views/event/OrganizerFormView.vue'
 import OrganizerDetailView from '@/views/event/OrganizerDetailView.vue'
@@ -53,8 +54,14 @@ const router = createRouter({
       },
       children: [
         {
-          path: 'detail',
+          path: '',
           name: 'event-detail-view',
+          component: EventDetailView,
+          props: true
+        },
+        {
+          path: 'detail',
+          name: 'event-detail-view-alt',
           component: EventDetailView,
           props: true
         },
@@ -99,16 +106,21 @@ const router = createRouter({
       component: NotFoundView
     },
     {
-      path:'/network-error',
+      path: '/network-error',
       name: 'network-error-view',
       component: NetworkErrorView
+    },
+    {
+      path: '/students',
+      name: 'students',
+      component: StudentListView
     },
     {
       path: '/organizer/:id',
       name: 'organizer-detail',
       component: OrganizerDetailView,
       props: true,
-      beforeEnter: (to) => {
+      beforeEnter: async (to) => {
         const id = parseInt(to.params.id as string);
         if (isNaN(id) || id <= 0) {
           return { 
@@ -118,35 +130,55 @@ const router = createRouter({
         }
         
         const organizerStore = useOrganizerStore();
-        const organizer = organizerStore.getOrganizerById(id);
         
-        if (!organizer) {
-          return { 
-            name: '404-resource-view',
-            params: { resource: 'organizer' } 
-          };
+        try {
+          // Try to get from store first
+          let organizer = organizerStore.getOrganizerById(id);
+          
+          // If not in store, try to load all organizers
+          if (!organizer) {
+            // Try to load the specific organizer directly
+            try {
+              const response = await import('@/service/OrganizerService').then(m => 
+                m.default.getOrganizer(id)
+              );
+              if (response?.data) {
+                const orgData = response.data as Organizer;
+                organizer = orgData;
+                organizerStore.addOrganizer(orgData);
+              }
+            } catch (error) {
+              console.error('Error loading organizer:', error);
+              return { name: 'network-error-view' };
+            }
+          }
+          
+          if (!organizer) {
+            return { 
+              name: '404-resource-view',
+              params: { resource: 'organizer' } 
+            };
+          }
+          
+          organizerStore.setCurrentOrganizer(organizer);
+          return true;
+        } catch (error) {
+          console.error('Error in organizer route guard:', error);
+          return { name: 'network-error-view' };
         }
-        
-        organizerStore.setCurrentOrganizer(organizer);
-        return true;
       }
-    },
-    {
-      path: '/students',
-      name: 'students',
-      component: StudentListView 
-    },
+    }
   ],
-  scrollBehavior(to, from,savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { top: 0 }
+      return { top: 0 };
     }
   }
-})
+});
 
-router.beforeEach(( ) => {
+router.beforeEach(() => {
   nProgress.start()
 })
 router.afterEach(() => {
