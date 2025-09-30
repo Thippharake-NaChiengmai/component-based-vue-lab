@@ -9,8 +9,7 @@ import ImageUpload from '@/components/ImageUpload.vue'
 
 const organizer = ref<Organizer>({
   id: 0,
-  organization: '',
-  address: '',
+  name: '',
   images: []
 })
 
@@ -23,7 +22,7 @@ onMounted(() => {
 })
 
 function loadOrganizers() {
-  OrganizerService.getOrganizers(100, 1)
+  OrganizerService.getOrganizers()
     .then((response) => {
       organizers.value = response.data
     })
@@ -33,11 +32,6 @@ function loadOrganizers() {
 }
 
 function saveOrganizer() {
-  // Basic validation
-  if (!organizer.value.organization) {
-    alert('Please provide an organization name')
-    return
-  }
 
   // Prepare data for backend - remove id if it's 0 (new organizer)
   const organizerData = { ...organizer.value }
@@ -47,7 +41,7 @@ function saveOrganizer() {
 
   OrganizerService.saveOrganizer(organizerData)
     .then((response) => {
-      store.updateMessages('You are successfully add a new organizer: ' + response.data.organization)
+      store.updateMessages('You are successfully add a new organizer: ' + response.data.name)
       setTimeout(() => { store.resetMessages() }, 3000)
       router.push({ name: 'event-list-view' })
     })
@@ -72,29 +66,18 @@ function saveOrganizer() {
           :to="{ name: 'organizer-detail', params: { id: org.id } }"
           class="block border border-gray-300 rounded p-3 bg-gray-50 hover:bg-gray-100 transition-colors"
         >
-          <div class="font-medium text-gray-800">{{ org.organization }}</div>
-          <div class="text-sm text-gray-600">{{ org.address || 'No address provided' }}</div>
+          <div class="font-medium text-gray-800">{{ org.name }}</div>
         </router-link>
       </div>
     </div>
 
     <h1 class="eyebrow -text-primary">Create an Organizer</h1>
     <form @submit.prevent="saveOrganizer">
-      <div class="field">
-        <label>Organization *</label>
-        <input v-model="organizer.organization" type="text" placeholder="Organization Name" required />
-      </div>
-
-      <div class="field">
-        <label>Address</label>
-        <input v-model="organizer.address" type="text" placeholder="Organization Address" />
-      </div>
       <h3 class="eyebrow -text-base">Event Images</h3>
       <div class="field">
         <ImageUpload v-model="organizer.images" />
       </div>
-      <button class="button -fill-gradient" type="submit">Submit</button>
+      <button class="button" type="submit">Submit</button>
     </form>
-    <pre class="-text-gray">{{ organizer }}</pre>
   </div>
 </template>

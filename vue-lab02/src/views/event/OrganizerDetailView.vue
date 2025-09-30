@@ -2,10 +2,9 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useOrganizerStore } from '@/stores/organizer';
-import { useEventStore } from '@/stores/event';
+
 
 const organizerStore = useOrganizerStore();
-const eventStore = useEventStore();
 const route = useRoute();
 const router = useRouter();
 

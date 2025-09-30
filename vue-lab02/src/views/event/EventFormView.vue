@@ -2,8 +2,8 @@
 import type { Event, Organizer } from '@/types'
 import { ref, onMounted } from 'vue'
 import EventService from '@/service/EventService'
-import BaseInput from '@/components/BaseInput.vue'
 import OrganizerService from '@/service/OrganizerService'
+import BaseInput from '@/components/BaseInput.vue'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
 import ImageUpload from '@/components/ImageUpload.vue'
@@ -20,8 +20,10 @@ const event = ref<Event>({
   petAllowed: false,
   organizer: {
     id: 0,
-    name: ''
+    name: '',
+    images: []
   },
+  participants: [],
   images: []
 })
 
@@ -34,7 +36,7 @@ onMounted(() => {
 })
 
 function loadOrganizers() {
-  OrganizerService.getOrganizers(100, 1)
+  OrganizerService.getOrganizers()
     .then((response) => {
       organizers.value = response.data
     })
@@ -80,14 +82,18 @@ function saveEvent() {
       <BaseInput v-model="event.date" type="date" label="Date"/>
       <BaseInput v-model="event.time" type="time" label="Time"/>
       <BaseInput v-model="event.petAllowed" type="checkbox" label="Pet Allowed"/>
-      <BaseInput v-model="event.organizer" type="text" label="Organizer"/>
+
+      <h3>Who is your organizer</h3>
+      <label>Select an Organizer</label>
+      <BaseSelect v-model="event.organizer.id" :options="organizers"
+      label="organizer"/>
 
       <h3>Event Images</h3>
       <div class="field">
         <ImageUpload v-model="event.images" />
       </div>
 
-      <button class="button -fill-gradient" type="submit">Submit</button>
+      <button class="button" type="submit">Submit</button>
     </form>
     <pre class="-text-gray">{{ event }}</pre>
   </div>
