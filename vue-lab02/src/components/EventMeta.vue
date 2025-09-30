@@ -27,9 +27,13 @@ function loadOrganizers() {
   <div class="text-right">
     <p class="text-sm m-0">{{ event.category }}</p>
     <p class="text-sm m-0">
-      <span>
-        {{ event.organizer.name  }}
-      </span>
+      <router-link 
+        v-if="event.organizer"
+        :to="{ name: 'organizer-detail', params: { id: event.organizer.id.toString() } }"
+        class="text-blue-600 hover:text-blue-800 hover:underline"
+      >
+        {{ event.organizer.name }}
+      </router-link>
     </p>
   </div>
 </template>

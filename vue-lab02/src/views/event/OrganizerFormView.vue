@@ -63,7 +63,7 @@ function saveOrganizer() {
         <router-link 
           v-for="org in organizers" 
           :key="org.id"
-          :to="{ name: 'organizer-detail', params: { id: org.id } }"
+          :to="{ name: 'organizer-detail', params: { id: org.id.toString() } }"
           class="block border border-gray-300 rounded p-3 bg-gray-50 hover:bg-gray-100 transition-colors"
         >
           <div class="font-medium text-gray-800">{{ org.name }}</div>

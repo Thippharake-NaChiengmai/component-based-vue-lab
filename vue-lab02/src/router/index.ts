@@ -10,7 +10,8 @@ import NotFoundView from '@/views/NotFoundView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import nProgress from 'nprogress'
 import EventService from '@/service/EventService'
-import { useEventStore } from '@/stores/event'
+import { useEventStore } from '@/stores/event';
+import { useOrganizerStore } from '@/stores/organizer';
 import AddEventView from '@/views/event/EventFormView.vue'
 import OrganizerFormView from '@/views/event/OrganizerFormView.vue'
 import OrganizerDetailView from '@/views/event/OrganizerDetailView.vue'
@@ -33,38 +34,27 @@ const router = createRouter({
       name: 'event-layout-view',
       component: EventLayoutView,
       props: true,
-      beforeEnter: async (to) => {
-        const id = Number(to.params.id)
-        if (isNaN(id) || id <= 0) {
-          return { name: '404-resource-view', params: { resource: 'event' } }
-        }
-        
+      beforeEnter: (to) => {
+        const id = parseInt(to.params.id as string)
         const eventStore = useEventStore()
-        try {
-          const response = await EventService.getEvent(id)
-          eventStore.$patch({ currentEvent: response.data })
-          return true
-        } catch (error: unknown) {
-          const axiosError = error as { response?: { status: number } }
-          if (axiosError.response?.status === 404) {
-            return { 
-              name: '404-resource-view',
-              params: { resource: 'event' } 
-            }
+        return EventService.getEvent(id)
+        .then((response) => {
+        eventStore.setEvent(response.data)
+        return true
+        }).catch(error => {
+          if (error.response && error.response.status === 404) {
+            return { name: '404-resource-view',
+               params: { resource: 'event' } 
+              }
+          } else{
+            return { name: 'network-error-view'}
           }
-          return { name: 'network-error-view' }
-        }
+        })
       },
       children: [
         {
-          path: '',
-          name: 'event-detail-view',
-          component: EventDetailView,
-          props: true
-        },
-        {
           path: 'detail',
-          name: 'event-detail-view-alt',
+          name: 'event-detail-view',
           component: EventDetailView,
           props: true
         },
@@ -117,7 +107,29 @@ const router = createRouter({
       path: '/organizer/:id',
       name: 'organizer-detail',
       component: OrganizerDetailView,
-      props: true
+      props: true,
+      beforeEnter: (to) => {
+        const id = parseInt(to.params.id as string);
+        if (isNaN(id) || id <= 0) {
+          return { 
+            name: '404-resource-view',
+            params: { resource: 'organizer' } 
+          };
+        }
+        
+        const organizerStore = useOrganizerStore();
+        const organizer = organizerStore.getOrganizerById(id);
+        
+        if (!organizer) {
+          return { 
+            name: '404-resource-view',
+            params: { resource: 'organizer' } 
+          };
+        }
+        
+        organizerStore.setCurrentOrganizer(organizer);
+        return true;
+      }
     },
     {
       path: '/students',
