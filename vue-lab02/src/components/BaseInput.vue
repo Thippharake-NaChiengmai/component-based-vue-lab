@@ -3,7 +3,7 @@ const modelValue = defineModel<string | boolean>()
 
 interface BaseInputProps {
     label: string
-    type?: string
+    type: string
 }
 
 withDefaults(defineProps<BaseInputProps>(), {

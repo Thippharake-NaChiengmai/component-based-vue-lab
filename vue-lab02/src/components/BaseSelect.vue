@@ -1,4 +1,4 @@
-<script lang="ts">
+<script setup lang="ts">
 import type { Organizer } from '@/types';
 
 const modelValue = defineModel()
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<baseSelectProps>(), {
     <label v-if="label">
         {{ props.label }}
     </label>
-    <select class="mb-6" v-bind="$sattrs" v-model="modelValue">
+    <select class="mb-6" v-bind="$attrs" v-model="modelValue">
         <option 
         v-for="option in props.options"
         :key="option.id" 

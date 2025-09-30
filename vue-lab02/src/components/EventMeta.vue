@@ -13,7 +13,7 @@ onMounted(() => {
 })
 
 function loadOrganizers() {
-  OrganizerService.getOrganizers(100, 1)
+  OrganizerService.getOrganizers()
     .then((response) => {
       organizers.value = response.data
     })
