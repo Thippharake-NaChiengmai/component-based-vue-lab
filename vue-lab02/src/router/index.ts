@@ -33,27 +33,38 @@ const router = createRouter({
       name: 'event-layout-view',
       component: EventLayoutView,
       props: true,
-      beforeEnter: (to) => {
-        const id = parseInt(to.params.id as string)
+      beforeEnter: async (to) => {
+        const id = Number(to.params.id)
+        if (isNaN(id) || id <= 0) {
+          return { name: '404-resource-view', params: { resource: 'event' } }
+        }
+        
         const eventStore = useEventStore()
-        return EventService.getEvent(id)
-        .then((response) => {
-        eventStore.setEvent(response.data)
-        return true
-        }).catch(error => {
-          if (error.response && error.response.status === 404) {
-            return { name: '404-resource-view',
-               params: { resource: 'event' } 
-              }
-          } else{
-            return { name: 'network-error-view'}
+        try {
+          const response = await EventService.getEvent(id)
+          eventStore.$patch({ currentEvent: response.data })
+          return true
+        } catch (error: unknown) {
+          const axiosError = error as { response?: { status: number } }
+          if (axiosError.response?.status === 404) {
+            return { 
+              name: '404-resource-view',
+              params: { resource: 'event' } 
+            }
           }
-        })
+          return { name: 'network-error-view' }
+        }
       },
       children: [
         {
-          path: 'detail',
+          path: '',
           name: 'event-detail-view',
+          component: EventDetailView,
+          props: true
+        },
+        {
+          path: 'detail',
+          name: 'event-detail-view-alt',
           component: EventDetailView,
           props: true
         },
