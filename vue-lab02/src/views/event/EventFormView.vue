@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import EventService from '@/service/EventService'
 import OrganizerService from '@/service/OrganizerService'
 import BaseInput from '@/components/BaseInput.vue'
+import BaseSelect from '@/components/BaseSelect.vue' // Add this import
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
 import ImageUpload from '@/components/ImageUpload.vue'
@@ -39,10 +40,29 @@ function loadOrganizers() {
   OrganizerService.getOrganizers()
     .then((response) => {
       organizers.value = response.data
+      // Set default organizer if available
+      if (organizers.value.length > 0) {
+        event.value.organizer = {
+          id: organizers.value[0].id,
+          name: organizers.value[0].name,
+          images: organizers.value[0].images || []
+        }
+      }
     })
     .catch(() => {
       console.error('Failed to load organizers')
     })
+}
+
+function handleOrganizerChange(organizerId: number) {
+  const selectedOrganizer = organizers.value.find(org => org.id === organizerId)
+  if (selectedOrganizer) {
+    event.value.organizer = {
+      id: selectedOrganizer.id,
+      name: selectedOrganizer.name,
+      images: selectedOrganizer.images || []
+    }
+  }
 }
 
 function saveEvent() {
@@ -85,10 +105,14 @@ function saveEvent() {
 
       <h3>Who is your organizer</h3>
       <label>Select an Organizer</label>
-      <BaseSelect v-model="event.organizer.id" :options="organizers"
-      label="organizer"/>
+      <BaseSelect
+        v-model="event.organizer.id"
+        :options="organizers"
+        :label="'Select an Organizer'"
+        @update:modelValue="handleOrganizerChange"
+      />
 
-      <h3>Event Images</h3>
+      <h3>Event Images (optional)</h3>
       <div class="field">
         <ImageUpload v-model="event.images" />
       </div>

@@ -72,12 +72,37 @@ function saveOrganizer() {
     </div>
 
     <h1 class="eyebrow -text-primary">Create an Organizer</h1>
-    <form @submit.prevent="saveOrganizer">
-      <h3 class="eyebrow -text-base">Event Images</h3>
-      <div class="field">
-        <ImageUpload v-model="organizer.images" />
+    <form @submit.prevent="saveOrganizer" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Organizer Name</label>
+        <input
+          id="name"
+          v-model="organizer.name"
+          type="text"
+          placeholder="Enter organizer name"
+          class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-primary focus:ring-primary"
+          required
+          aria-required="true"
+        />
       </div>
-      <button class="button" type="submit">Submit</button>
+
+      <div>
+        <h3 class="eyebrow -text-base">Organizer Images (optional)</h3>
+        <div class="field">
+          <ImageUpload v-model="organizer.images" />
+        </div>
+      </div>
+
+      <div>
+        <button
+          class="button"
+          type="submit"
+          :disabled="!organizer.name || organizer.name.trim() === ''"
+          :aria-disabled="!organizer.name || organizer.name.trim() === ''"
+        >
+          Submit
+        </button>
+      </div>
     </form>
   </div>
 </template>
