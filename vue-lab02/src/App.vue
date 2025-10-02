@@ -14,8 +14,8 @@ const { messages } = storeToRefs(messageStore);
     <div class="animate-fade" v-if="messages">
       <h4>{{ messages }}</h4>
     </div>
-    <span class="text-center text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 py-2">
-      Deploy With Vercel/Spring-boots Backend
+    <span class="block text-left text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 py-1">
+      Thippharake Na Chiengmai 662115019
     </span>
      <div class="py-6">
        <nav>
