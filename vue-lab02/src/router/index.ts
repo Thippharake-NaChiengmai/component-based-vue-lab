@@ -81,6 +81,12 @@ const router = createRouter({
           name: 'event-edit-view',
           component: EventEditView,
           props: true
+        },
+        {
+          path: 'register',
+          name: 'participants-form-view',
+          component: () => import('../views/event/ParticipantsListView.vue'),
+          props: true
         }
       ]
     },
@@ -119,6 +125,11 @@ const router = createRouter({
       path: '/students',
       name: 'students',
       component: StudentListView
+    },
+    {
+      path: '/participants',
+      name: 'participants-list',
+      component: () => import('@/views/event/ParticipantsListView.vue')
     },
     {
       path: '/organizer/:id',

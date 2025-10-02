@@ -24,7 +24,11 @@ const event = ref<Event>({
     name: '',
     images: []
   },
-  participants: [],
+  participants: {
+    id: 0,
+    name: '',
+    telNo: ''
+  },
   images: []
 })
 

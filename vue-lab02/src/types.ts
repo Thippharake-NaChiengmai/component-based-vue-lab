@@ -22,7 +22,7 @@ export interface Event {
   time: string;
   petAllowed: boolean;
   organizer: Organizer;
-  participants: Participant[];
+  participants: Participant;
   images: string[];
 }
 

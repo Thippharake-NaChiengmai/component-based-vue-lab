@@ -52,7 +52,14 @@ const { messages } = storeToRefs(messageStore);
            exact-active-class="text-green-500"
            :to="{ name: 'add-organizer' }"
          >
-           Add Organizer
+           Add Organizer |
+         </RouterLink>
+         <RouterLink
+           class="font-bold text-gray-700"
+           exact-active-class="text-green-500"
+           :to="{ name: 'participants-list' }"
+         >
+           View Participants
          </RouterLink>
        </nav>
      </div>
