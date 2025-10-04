@@ -6,6 +6,6 @@ defineProps<ErrorMessageProps>()
 </script>
 <template>
 <p aria-live="assertive" class="errorMessage" :id="id">
-<slot />
+<slot></slot>
 </p>
 </template>

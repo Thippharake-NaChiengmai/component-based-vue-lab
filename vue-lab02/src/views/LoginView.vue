@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import InputText from '@/components/InputText.vue'
 import * as yup from 'yup'
+import { useAuthStore } from '@/stores/auth'
 import { useField, useForm } from 'vee-validate'
+const authStore = useAuthStore()
 const validationSchema = yup.object({
-  email: yup.string().required('The email is required').email('input must be an email'),
-  password: yup.string().required('The Password is required').min(4, 'Password must be at least 4 characters')
+  email: yup.string().required('The email is required'),
+  password: yup.string().required('The Password is required')
 })
 const { errors, handleSubmit } = useForm({
   validationSchema,
@@ -15,8 +17,13 @@ const { errors, handleSubmit } = useForm({
 })
 const { value: email } = useField<string>('email')
 const { value: password } = useField<string>('password')    
-const onSubmit = handleSubmit((values) => {
-  console.log(values)
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    await authStore.login(values.email, values.password)
+    console.log('Login successful')
+  } catch (error: unknown) {
+    console.error('Login failed:', error)
+  }
 }) 
 </script>
 
@@ -39,7 +46,7 @@ const onSubmit = handleSubmit((values) => {
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
             Email address
           </label>
-          <InputText type="email" v-model="email" placeholder="Email address" :error="errors['email']"/>
+          <InputText type="text" v-model="email" placeholder="Email address" :error="errors['email']"/>
         </div>
 
         <div>
