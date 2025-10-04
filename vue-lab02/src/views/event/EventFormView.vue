@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { Event, Organizer } from '@/types'
+import type { Event, Organizer, Participant } from '@/types'
 import { ref, onMounted } from 'vue'
 import EventService from '@/service/EventService'
 import OrganizerService from '@/service/OrganizerService'
+import ParticipantService from '@/service/ParticipantService'
 import BaseInput from '@/components/BaseInput.vue'
-import BaseSelect from '@/components/BaseSelect.vue' // Add this import
+import BaseSelect from '@/components/BaseSelect.vue'
+import BaseCheckbox from '@/components/BaseCheckbox.vue'
 import { useRouter } from 'vue-router'
 import { useMessageStore } from '@/stores/message'
 import ImageUpload from '@/components/ImageUpload.vue'
@@ -33,11 +35,14 @@ const event = ref<Event>({
 })
 
 const organizers = ref<Organizer[]>([])
+const participants = ref<Participant[]>([])
+const selectedParticipants = ref<number[]>([])
 const router = useRouter()
 const store = useMessageStore()
 
 onMounted(() => {
   loadOrganizers()
+  loadParticipants()
 })
 
 function loadOrganizers() {
@@ -55,6 +60,16 @@ function loadOrganizers() {
     })
     .catch(() => {
       console.error('Failed to load organizers')
+    })
+}
+
+function loadParticipants() {
+  ParticipantService.getParticipants()
+    .then((response) => {
+      participants.value = response.data
+    })
+    .catch(() => {
+      console.error('Failed to load participants')
     })
 }
 
@@ -116,6 +131,13 @@ function saveEvent() {
         @update:modelValue="handleOrganizerChange"
       />
 
+      <h3>Select Participants</h3>
+      <BaseCheckbox
+        v-model="selectedParticipants"
+        :options="participants"
+        label="Participants who will join this event"
+      />
+      
       <h3>Event Images (optional)</h3>
       <div class="field">
         <ImageUpload v-model="event.images" />
@@ -124,5 +146,6 @@ function saveEvent() {
       <button class="button" type="submit">Submit</button>
     </form>
     <pre class="-text-gray">{{ event }}</pre>
+    <pre class="-text-gray">Selected Participants: {{ selectedParticipants }}</pre>
   </div>
 </template>
