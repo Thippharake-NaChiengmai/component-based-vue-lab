@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import type { User } from '@/types'
+import type { Organizer } from '@/types'
 import apiClient from '@/service/AxiosClient'
 import axios from 'axios'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: null as string | null,
-    user: null as User | null,
+    user: null as Organizer | null,
   }),
   getters: {
     currentUserName(): string {
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('user')
     },
 
-    reload(token: string, user: User) {
+    reload(token: string, user: Organizer) {
       this.token = token
       this.user = user
     }

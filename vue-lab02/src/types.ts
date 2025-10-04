@@ -3,13 +3,6 @@ export interface Organizer {
   name: string;
   ownEvents?: Event[];
   images: string[];
-  roles?: string[];
-}
-
-export interface User {
-  id: number;
-  name: string;
-  email?: string;
   roles: string[];
 }
 
