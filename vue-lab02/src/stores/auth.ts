@@ -21,6 +21,23 @@ export const useAuthStore = defineStore('auth', {
     }
   },
   actions: {
+    register(data: {
+      username: string
+      email: string
+      password: string
+      firstname: string
+      lastname: string
+    }) {
+      return apiClient.post('/api/v1/auth/register', data)
+        .then(response => {
+          return response
+        })
+        .catch(error => {
+          console.error('Registration error:', error)
+          throw error
+        })
+    },
+
     login(email: string, password: string) {
       return apiClient.post('/api/v1/auth/authenticate', { 
         username: email,
