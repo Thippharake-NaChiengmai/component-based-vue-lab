@@ -24,13 +24,14 @@ const event = ref<Event>({
   organizer: {
     id: 0,
     name: '',
-    images: []
+    images: [],
+    roles: []
   },
-  participants: {
+  participants: [{
     id: 0,
     name: '',
     telNo: ''
-  },
+  }],
   images: []
 })
 
@@ -49,12 +50,12 @@ function loadOrganizers() {
   OrganizerService.getOrganizers()
     .then((response) => {
       organizers.value = response.data
-      // Set default organizer if available
       if (organizers.value.length > 0) {
         event.value.organizer = {
           id: organizers.value[0].id,
           name: organizers.value[0].name,
-          images: organizers.value[0].images || []
+          images: organizers.value[0].images || [],
+          roles: organizers.value[0].roles || []
         }
       }
     })
@@ -79,7 +80,8 @@ function handleOrganizerChange(organizerId: number) {
     event.value.organizer = {
       id: selectedOrganizer.id,
       name: selectedOrganizer.name,
-      images: selectedOrganizer.images || []
+      images: selectedOrganizer.images || [],
+      roles: selectedOrganizer.roles || []
     }
   }
 }
