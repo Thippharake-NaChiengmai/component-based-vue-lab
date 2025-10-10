@@ -116,12 +116,40 @@ const router = createRouter({
     {
       path: '/add-event',
       name: 'add-event',
-      component: AddEventView
+      component: AddEventView,
+      beforeEnter: (to) => {
+        try {
+          const token = localStorage.getItem('access_token')
+          const userRaw = localStorage.getItem('user')
+          if (!token || !userRaw) return { name: 'login' }
+          const user = JSON.parse(userRaw)
+          if (!user?.roles || !user.roles.includes('ROLE_ADMIN')) {
+            return { name: 'not-found' }
+          }
+          return true
+        } catch (e) {
+          return { name: 'login' }
+        }
+      }
     },
     {
       path: '/add-organizer',
       name: 'add-organizer',
-      component: OrganizerFormView
+      component: OrganizerFormView,
+      beforeEnter: (to) => {
+        try {
+          const token = localStorage.getItem('access_token')
+          const userRaw = localStorage.getItem('user')
+          if (!token || !userRaw) return { name: 'login' }
+          const user = JSON.parse(userRaw)
+          if (!user?.roles || !user.roles.includes('ROLE_ADMIN')) {
+            return { name: 'not-found' }
+          }
+          return true
+        } catch (e) {
+          return { name: 'login' }
+        }
+      }
     },
     {
       path: '/404/:resource',

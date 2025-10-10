@@ -58,7 +58,7 @@ function logout() {
             </li>
           </ul>
 
-          <ul v-if="!authStore.currentUserName" class="flex navbar-nav ml-auto">
+          <ul v-if="authStore.currentUserName" class="flex navbar-nav ml-auto">
             <li class="nav-item px-2">
               <router-link to="/profile" class="nav-link">
                 <div class="flex items-center">
@@ -99,6 +99,7 @@ function logout() {
            students |
          </RouterLink>
          <RouterLink
+           v-if="authStore.isAdmin"
            class="font-bold text-gray-700"
            exact-active-class="text-green-500"
            :to="{ name: 'add-event' }"
@@ -106,6 +107,7 @@ function logout() {
            Add Event |
          </RouterLink>
          <RouterLink
+           v-if="authStore.isAdmin"
            class="font-bold text-gray-700"
            exact-active-class="text-green-500"
            :to="{ name: 'add-organizer' }"
